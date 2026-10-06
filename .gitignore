@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.xlsx
+!src/ls900_biometry/assets/output_template.xlsx
+*.inspect.ndjson
+build/
+dist/
+release/
+debug.log
+!.gitkeep
+.DS_Store

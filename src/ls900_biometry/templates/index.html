@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LS900 ESX Guinea Pig Biometry Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true"><span></span></div>
+          <p class="eyebrow">LOCAL · OFFLINE</p>
+        </div>
+        <h1>LS900 ESX Guinea Pig<br>Biometry Analyzer</h1>
+        <p class="subtitle">LS900豚鼠眼部生物测量ESX解析工具</p>
+      </header>
+
+      <section class="panel" aria-labelledby="upload-heading">
+        <div class="step">01</div>
+        <div class="content">
+          <h2 id="upload-heading">选择原始 ESX 文件</h2>
+          <p>支持一次选择多只动物；文件只在本机处理，不会上传到网络。</p>
+          <label class="drop-zone" id="drop-zone">
+            <input id="file-input" type="file" accept=".esx" multiple>
+            <span class="drop-icon">＋</span>
+            <strong>拖入文件，或点击选择</strong>
+            <small>仅支持 .esx</small>
+          </label>
+          <div class="selection" id="selection" hidden>
+            <span id="file-count"></span>
+            <button type="button" class="link-button" id="clear-button">清空</button>
+          </div>
+          <ul id="file-list" class="file-list"></ul>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="analysis-heading">
+        <div class="step">02</div>
+        <div class="content">
+          <h2 id="analysis-heading">解析并导出 Excel</h2>
+          <p>程序会自动计算 AL、CCT、AD、LT 和 RT，并按左右眼排版。</p>
+          <button type="button" class="primary" id="analyze-button" disabled>开始分析</button>
+          <div class="status" id="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <footer>
+        <span>V4 locked model · Data remain on this computer</span>
+        {% if config.DESKTOP_MODE %}
+        <button type="button" class="exit-button" id="exit-button">退出程序</button>
+        {% endif %}
+      </footer>
+    </main>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

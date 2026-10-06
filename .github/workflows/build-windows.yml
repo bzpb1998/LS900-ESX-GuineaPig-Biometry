@@ -1,0 +1,45 @@
+name: Build Windows release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install -r requirements-build.txt
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+      - name: Generate icon
+        run: python build_tools/create_icon.py
+      - name: Build executable
+        run: python -m PyInstaller --noconfirm --clean LS900-Biometry-Analyzer.spec
+      - name: Create archive and checksum
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release | Out-Null
+          $archive = "release/LS900-ESX-GuineaPig-Biometry-${{ github.ref_name }}-windows-x64.zip"
+          Compress-Archive -Path "dist/LS900 Biometry Analyzer/*" -DestinationPath $archive -Force
+          $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash
+          Set-Content -LiteralPath "$archive.sha256.txt" -Value "$hash  $(Split-Path -Leaf $archive)" -Encoding ascii
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: release/*
+      - name: Attach files to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*

@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the repository and the associated methods paper when available."
+title: "LS900 ESX Guinea Pig Biometry Analyzer"
+type: software
+authors:
+  - family-names: "Zhang"
+    given-names: "Junbiao"
+version: 0.1.0
+date-released: 2026-10-06
+license: MIT
+repository-code: "https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry"
