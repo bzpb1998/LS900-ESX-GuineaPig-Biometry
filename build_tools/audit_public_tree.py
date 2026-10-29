@@ -19,7 +19,7 @@ def inspect_path(name,check_content=True):
         return "non-template workbook"
     if suffix in {".png",".jpg",".jpeg",".ico",".bmp"} and name not in IMAGES:
         return "non-application image"
-    if suffix not in ALLOWED and name not in IMAGES|{TEMPLATE,"LICENSE",".gitignore"}:
+    if suffix not in ALLOWED and name not in IMAGES|{TEMPLATE,"LICENSE",".gitignore",".gitattributes"}:
         return "unexpected file type"
     if check_content and suffix in ALLOWED:
         text=path.read_text(encoding="utf-8")

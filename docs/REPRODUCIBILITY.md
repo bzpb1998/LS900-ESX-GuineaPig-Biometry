@@ -10,6 +10,8 @@ The model is checked on load. No fitting, online learning or reference-table loo
 
 From a source checkout:
 
+Use the source archive from the desired Release, or preserve LF line endings when checking out frozen model JSON. Current main includes `.gitattributes` for this purpose. For an exact Windows Git checkout of the historical v0.2.1 tag (before that attributes-only follow-up), use `git -c core.autocrlf=false clone --branch v0.2.1 https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry.git`. Do not change global Git settings. The model integrity check deliberately rejects modified bytes, including unintended newline conversion.
+
 ```powershell
 conda env create -f environment.yml
 conda activate ls900-biometry-v5
