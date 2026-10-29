@@ -1,22 +1,19 @@
 $ErrorActionPreference = "Stop"
 Set-Location -LiteralPath $PSScriptRoot
 
-$python = Join-Path $PSScriptRoot ".venv\Scripts\python.exe"
+$python = Join-Path $PSScriptRoot ".venv-v5\Scripts\python.exe"
 if (-not (Test-Path -LiteralPath $python)) {
-    py -3 -m venv .venv
+    py -3.12 -m venv .venv-v5
+    if ($LASTEXITCODE -ne 0) { throw "Python 3.12 environment creation failed" }
 }
 
-& $python -m pip install -r requirements-build.txt
+& $python -m pip install -r requirements-lock-windows-py312.txt
+if ($LASTEXITCODE -ne 0) { throw "Dependency installation failed" }
+& $python -m pip install -e . --no-deps --no-build-isolation
+if ($LASTEXITCODE -ne 0) { throw "Project installation failed" }
 & $python .\build_tools\create_icon.py
+if ($LASTEXITCODE -ne 0) { throw "Icon generation failed" }
 & $python -m PyInstaller --noconfirm --clean .\LS900-Biometry-Analyzer.spec
-
-$releaseDir = Join-Path $PSScriptRoot "release"
-New-Item -ItemType Directory -Force -Path $releaseDir | Out-Null
-$archive = Join-Path $releaseDir "LS900-ESX-GuineaPig-Biometry-v0.1.0-windows-x64.zip"
-Compress-Archive -Path ".\dist\LS900 Biometry Analyzer\*" -DestinationPath $archive -Force
-$hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash
-Set-Content -LiteralPath "$archive.sha256.txt" -Value "$hash  $(Split-Path -Leaf $archive)" -Encoding ascii
-
-Write-Output "Windows application: $PSScriptRoot\dist\LS900 Biometry Analyzer\LS900 Biometry Analyzer.exe"
-Write-Output "Release archive: $archive"
-Write-Output "SHA256: $hash"
+if ($LASTEXITCODE -ne 0) { throw "Executable build failed" }
+& $python .\build_tools\package_release.py
+if ($LASTEXITCODE -ne 0) { throw "Release packaging failed" }

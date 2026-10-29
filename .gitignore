@@ -1,4 +1,5 @@
-.venv/
+.venv*/
+*.egg-info/
 __pycache__/
 *.py[cod]
 *.xlsx
@@ -10,3 +11,26 @@ release/
 debug.log
 !.gitkeep
 .DS_Store
+
+# Research inputs, patient/animal records, manual references and local caches
+*.esx
+*.ESX
+*.eesx
+*.eESX
+*.xml
+*.zip
+*.env
+.env
+*.db
+*.sqlite
+*.sqlite3
+*.pkl
+*.npz
+*.npy
+*.csv
+*.tsv
+*.pdf
+private/
+raw_data/
+research_data/
+validation_outputs/

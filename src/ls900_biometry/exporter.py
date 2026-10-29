@@ -87,8 +87,10 @@ def export_report(
     if data.max_row > 5 + required_rows:
         data.delete_rows(6 + required_rows, data.max_row - (5 + required_rows))
 
+    versions = sorted({str(row.get("algorithm_version", "")) for row in rows if row.get("algorithm_version")})
+    model_description = "；".join(versions) if versions else "未提供版本信息"
     explanation: list[str] = [
-        "本表由锁定的 V4 模型直接解析原始 ESX 文件生成。",
+        "本表直接解析原始 ESX 文件生成。模型版本：" + model_description,
         "AD、LT 仅在晶体质量门通过时显示；未通过时留空，并在本页列明原因。",
         "RT 为探索性结果，尚未作为主要终点完成独立验证，使用时请谨慎。",
     ]
@@ -137,6 +139,8 @@ def export_report(
                 data.cell(index, base_column + 1).fill = REVIEW_FILL
                 explanation.append(f"{display_id} {eye}：角膜厚度超出当前自动质量范围。")
             if item.get("lens_quality") != "usable":
+                data.cell(index, base_column + 2).value = None
+                data.cell(index, base_column + 3).value = None
                 data.cell(index, base_column + 2).fill = BLANK_FILL
                 data.cell(index, base_column + 3).fill = BLANK_FILL
                 raw_reasons = str(item.get("lens_gate_reasons", ""))

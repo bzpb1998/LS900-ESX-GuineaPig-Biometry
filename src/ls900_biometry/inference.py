@@ -399,8 +399,9 @@ def _usable_lens_scans(record: EsxRecord, eye: str) -> list[np.ndarray]:
     ]
 
 
-def _lens_prediction(record: EsxRecord, eye: str, cornea_back: float) -> dict[str, Any]:
-    lens = _MODEL["lens"]
+def _lens_prediction(record: EsxRecord, eye: str, cornea_back: float,
+                     lens_model: dict[str, Any] | None = None) -> dict[str, Any]:
+    lens = _MODEL["lens"] if lens_model is None else lens_model
     scans = _usable_lens_scans(record, eye)
     if not scans:
         return {

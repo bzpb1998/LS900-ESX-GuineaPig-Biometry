@@ -12,7 +12,7 @@ from flask import Flask, jsonify, render_template, request, send_file
 from werkzeug.utils import secure_filename
 
 from .exporter import export_report
-from .inference import analyze_esx
+from .analysis import analyze_esx
 
 
 def create_app(shutdown_callback=None) -> Flask:

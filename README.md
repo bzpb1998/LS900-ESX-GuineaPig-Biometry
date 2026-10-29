@@ -1,5 +1,7 @@
 # LS900-ESX-GuineaPig-Biometry
 
+**软件 v0.2.0 · 锁定模型 V5 · 原生 Windows 独立窗口**。不再自动打开浏览器，不启动本地 HTTP 服务。V5 的历史评价为回顾性，尚待新动物前瞻性验证；完整结果与限制见 [V5_EXPERIMENTAL.md](docs/V5_EXPERIMENTAL.md)。历史 V4/v0.1.0 保留在 Releases。
+
 **LS900 ESX Guinea Pig Biometry Analyzer**
 
 **LS900豚鼠眼部生物测量ESX解析工具**
@@ -10,15 +12,17 @@
 
 ## Windows 便携版
 
-1. 在 GitHub Releases 下载 `LS900-ESX-GuineaPig-Biometry-v0.1.0-windows-x64.zip`。
+1. 在 [GitHub Releases](https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry/releases) 下载 `LS900-ESX-GuineaPig-Biometry-v0.2.0-V5-windows-x64.zip`，不是 Source code 或 Code → Download ZIP。
 2. 完整解压 ZIP；不要只把 EXE 单独复制出来。
-3. 双击 `LS900 Biometry Analyzer.exe`，程序会在后台运行并自动打开浏览器。
+3. 双击 `LS900 Biometry Analyzer.exe`，直接打开独立软件窗口。
 4. 把一个或多个原始 `.esx` 文件拖入页面，点击“开始分析”。
-5. Excel 下载完成后，可从 Windows 右下角托盘退出程序。
+5. 点击“保存 Excel”选择位置；关闭软件窗口即可退出。
 
 便携版不需要安装 Python、Conda 或其他运行环境。当前程序没有商业代码签名，Windows SmartScreen 可能在首次运行时提示“未知发布者”；请只从本仓库的 Release 下载，并用一同发布的 SHA-256 校验文件核对。
 
-页面没有 before/after 选项。导出文件按当前时间命名，使用者可以下载后自行改名。
+没有 before/after 选项。导出文件默认按时间命名，使用者可自行改名。详见[使用说明](docs/USER_GUIDE.md)。
+
+![V5 desktop window](assets/desktop-preview.png)
 
 ## 输出规则
 
@@ -30,23 +34,28 @@
 
 ## 数据与隐私
 
-程序只监听本机地址 `127.0.0.1`。选择的 ESX 文件在本机临时目录中处理，生成 Excel 后临时目录会自动删除；程序不会把数据上传到网络。
+原生桌面版直接在本机读取文件，不监听端口，不修改 ESX 原件，不上传数据。仅在主动点击 GitHub 文档链接时打开网络页面。旧 Flask 网页入口仅保留为代码兼容方式，不是默认 Windows 入口。
 
 ## 模型边界
 
-当前内置模型版本为 `guinea-lenstar-v4.0.0-combined-train60-2026-10-06`，针对现有豚鼠数据开发。它不是 LENSTAR 厂商算法，也不是医疗器械软件，不能用于临床诊断。将模型用于其他动物、不同设备、不同固件或明显不同的采集流程前，应重新验证。
+当前模型为 `guinea-lenstar-v5.0.0-animal-grouped-2026-10-16`，针对现有豚鼠数据开发。它不是 LENSTAR 厂商算法，也不是医疗器械软件，不能用于临床诊断。将模型用于其他动物、不同设备、不同固件或明显不同的采集流程前，应重新验证。
 
-锁定后固定测试集共 48 眼：AL MAE 为 0.0295 mm，45/48 眼（93.8%）绝对误差不超过 0.10 mm；CCT MAE 为 2.29 μm。晶体质量门通过且人工参考合理的 29 眼中，LT MAE 为 0.0202 mm。RT 目前仍为探索性结果。
+历史 48 眼的 V5 回顾性复核：AL MAE 0.02471 mm，43/48 眼绝对误差 ≤0.05 mm，46/48 眼 ≤0.10 mm。CCT MAE 2.29 μm；人工参考符合预设范围且模型门控通过的 29 眼，LT MAE 0.02023 mm。RT 为探索性结果。这不是诊断准确率，不能把已知历史反馈下的 V5 再称为全新盲法测试。
+
+这 48 眼是测量记录级测试，其中 20 眼的动物在另一时间点出现在训练组；28 眼的动物编号未进入训练。不能将全部 48 眼称为动物级完全独立外部验证。
 
 ## 从源代码运行
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe run_app.py
+conda env create -f environment.yml
+conda activate ls900-biometry-v5
+python -m pip install -e . --no-deps --no-build-isolation
+ls900-desktop
+# 或命令行批量输出：
+ls900-biometry --input "D:\data\raw" --output "D:\results\measurements.xlsx"
 ```
 
-随后访问 `http://127.0.0.1:8765`。
+依赖锁定、venv 替代方法、实际验证边界和合成示例见[复现说明](docs/REPRODUCIBILITY.md)。无需为了使用软件安装 Conda；它只面向源码使用者。
 
 ## 构建 Windows 版本
 
@@ -54,7 +63,7 @@ python -m venv .venv
 .\build_windows.ps1
 ```
 
-输出位于 `dist/LS900 Biometry Analyzer`，可发布压缩包位于 `release/`。GitHub Actions 也会在推送 `v*` 标签时自动构建 Windows 版本并附加到 Release。
+输出位于 `dist/LS900 Biometry Analyzer V5`，压缩包位于 `release/`。GitHub Actions 在推送 `v*` 标签时自动构建并附加到 Release。第三方许可及 Qt 源码获取方式见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## English summary
 

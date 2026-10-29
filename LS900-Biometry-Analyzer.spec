@@ -16,14 +16,20 @@ a = Analysis(
     pathex=[str(root / "src")],
     binaries=[],
     datas=datas,
-    hiddenimports=["pystray._win32"],
+    hiddenimports=["PySide6.QtSvg"],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=[],
+    excludes=["PySide6.QtNetwork", "PySide6.QtWebEngineCore", "PySide6.QtWebEngineWidgets", "PySide6.QtQml", "PySide6.QtQuick", "Flask", "pystray"],
     noarchive=False,
     optimize=0,
 )
+# Qt 6 on Windows uses the Windows ICU API. A developer's PATH can contain
+# incompatible Conda/Poppler ICU DLLs with the same names; never bundle those.
+# Use the supported Windows system libraries instead of shadowing them.
+windows_icu = {"icu.dll", "icuuc.dll", "icuin.dll", "icudt.dll"}
+a.binaries = [entry for entry in a.binaries
+              if Path(entry[0]).name.lower() not in windows_icu]
 pyz = PYZ(a.pure)
 
 exe = EXE(
@@ -53,5 +59,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name="LS900 Biometry Analyzer",
+    name="LS900 Biometry Analyzer V5",
 )

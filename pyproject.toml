@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ls900-esx-guineapig-biometry"
+version = "0.2.0"
+description = "Reproducible guinea-pig biometry from Lenstar LS 900 ESX files"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+authors = [{name = "Junbiao Zhang"}]
+dependencies = ["numpy==2.2.6", "lxml==5.4.0", "openpyxl==3.1.5"]
+
+[project.optional-dependencies]
+desktop = ["PySide6-Essentials==6.10.0", "Pillow==11.3.0"]
+legacy-web = ["Flask>=3.1,<4", "waitress>=3.0,<4"]
+
+[project.scripts]
+ls900-biometry = "ls900_biometry.cli:main"
+
+[project.gui-scripts]
+ls900-desktop = "ls900_biometry.desktop:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ls900_biometry = ["models/*.json", "assets/*.xlsx", "assets/*.svg", "templates/*.html", "static/*.css", "static/*.js"]

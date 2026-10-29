@@ -1,0 +1,15 @@
+name: ls900-biometry-v5
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.14
+  - pip=25.2
+  - setuptools=80.9.0
+  - pip:
+      - numpy==2.2.6
+      - lxml==5.4.0
+      - openpyxl==3.1.5
+      - et_xmlfile==2.0.0
+      - PySide6-Essentials==6.10.0
+      - shiboken6==6.10.0
+      - Pillow==11.3.0
