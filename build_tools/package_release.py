@@ -2,6 +2,7 @@
 import hashlib
 from importlib import metadata
 import json
+import platform
 from pathlib import Path
 import shutil
 import zipfile
@@ -45,17 +46,18 @@ def main():
         shutil.copy2(ROOT/"licenses/Qt"/name, target)
     source_model = ROOT / "src/ls900_biometry/models/v5_model.json"
     from ls900_biometry.analysis import MODEL_SHA256, MODEL_VERSION
+    from ls900_biometry import __version__
     digest = hashlib.sha256(source_model.read_bytes()).hexdigest().upper()
     assert digest == MODEL_SHA256
-    (DIST/"RELEASE_MANIFEST.json").write_text(json.dumps({"software":"0.2.0","model":MODEL_VERSION,
-       "model_sha256":digest,"python":"3.12.14","platform":"Windows x64","dependencies":versions},indent=2),encoding="utf-8")
+    (DIST/"RELEASE_MANIFEST.json").write_text(json.dumps({"software":__version__,"model":MODEL_VERSION,
+       "model_sha256":digest,"python":platform.python_version(),"platform":"Windows x64","dependencies":versions},indent=2),encoding="utf-8")
     for path in DIST.rglob("*"):
         if path.suffix.lower() in {".esx",".eesx",".csv",".tsv",".db",".sqlite",".pkl",".npz",".npy"}:
             raise ValueError("Forbidden research data in release: "+str(path))
         if path.suffix.lower()==".xlsx" and path.name!="output_template.xlsx":
             raise ValueError("Non-template Excel in release")
     RELEASE.mkdir(exist_ok=True)
-    target = RELEASE/"LS900-ESX-GuineaPig-Biometry-v0.2.0-V5-windows-x64.zip"
+    target = RELEASE/f"LS900-ESX-GuineaPig-Biometry-v{__version__}-V5-windows-x64.zip"
     with zipfile.ZipFile(target,"w",zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
         for path in sorted(DIST.rglob("*")):
             if path.is_file():

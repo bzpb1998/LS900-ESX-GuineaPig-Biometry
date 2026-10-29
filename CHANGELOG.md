@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-10-30
+
+- Record the actual build interpreter in RELEASE_MANIFEST.json instead of a local hard-coded version.
+- Pin GitHub's build interpreter to 3.12.10 and align the Conda descriptor; document local 3.12.14 checks separately.
+- Keep the identical locked V5 model and numerical results; no training changes.
+
 ## 0.2.0 — 2026-10-29
 
 - Native Windows Qt desktop window with no browser or local HTTP server.

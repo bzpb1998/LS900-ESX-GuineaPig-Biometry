@@ -1,6 +1,6 @@
 # LS900-ESX-GuineaPig-Biometry
 
-**软件 v0.2.0 · 锁定模型 V5 · 原生 Windows 独立窗口**。不再自动打开浏览器，不启动本地 HTTP 服务。V5 的历史评价为回顾性，尚待新动物前瞻性验证；完整结果与限制见 [V5_EXPERIMENTAL.md](docs/V5_EXPERIMENTAL.md)。历史 V4/v0.1.0 保留在 Releases。
+**软件 v0.2.1 · 锁定模型 V5 · 原生 Windows 独立窗口**。不再自动打开浏览器，不启动本地 HTTP 服务。V5 的历史评价为回顾性，尚待新动物前瞻性验证；完整结果与限制见 [V5_EXPERIMENTAL.md](docs/V5_EXPERIMENTAL.md)。历史 V4/v0.1.0 保留在 Releases。
 
 **LS900 ESX Guinea Pig Biometry Analyzer**
 
@@ -12,7 +12,7 @@
 
 ## Windows 便携版
 
-1. 在 [GitHub Releases](https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry/releases) 下载 `LS900-ESX-GuineaPig-Biometry-v0.2.0-V5-windows-x64.zip`，不是 Source code 或 Code → Download ZIP。
+1. 在 [GitHub Releases](https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry/releases) 下载 `LS900-ESX-GuineaPig-Biometry-v0.2.1-V5-windows-x64.zip`，不是 Source code 或 Code → Download ZIP。
 2. 完整解压 ZIP；不要只把 EXE 单独复制出来。
 3. 双击 `LS900 Biometry Analyzer.exe`，直接打开独立软件窗口。
 4. 把一个或多个原始 `.esx` 文件拖入页面，点击“开始分析”。

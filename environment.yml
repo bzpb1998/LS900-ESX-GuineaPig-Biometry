@@ -2,7 +2,7 @@ name: ls900-biometry-v5
 channels:
   - conda-forge
 dependencies:
-  - python=3.12.14
+  - python=3.12.10
   - pip=25.2
   - setuptools=80.9.0
   - pip:

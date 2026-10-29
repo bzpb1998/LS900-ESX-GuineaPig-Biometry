@@ -2,7 +2,7 @@
 
 ## Scope
 
-Software v0.2.0 uses the locked V5 model `guinea-lenstar-v5.0.0-animal-grouped-2026-10-16`.
+Software v0.2.1 uses the locked V5 model `guinea-lenstar-v5.0.0-animal-grouped-2026-10-16`.
 SHA-256: `80BDF7AC628A3F27F2CAE2CBD8D7D88B458FF6E248840AA406D09FFCAAE6100B`.
 The model is checked on load. No fitting, online learning or reference-table lookup occurs during inference. V4 stays in `inference.py` for the unchanged lens implementation and historical comparison; public `analysis.analyze_esx` invokes V5 retinal inference with the locked lens parameters. Desktop and CLI use the same `batch.py` service.
 
@@ -19,7 +19,7 @@ ls900-biometry --input "D:\data\raw" --output "D:\results\measurements.xlsx"
 ls900-desktop
 ```
 
-The Conda descriptor is supplied for convenience. The release environment was tested as an isolated Python 3.12.14 Windows x64 venv, not as an executed Conda solve on this machine. Platform-specific binary dependencies must be verified separately. `environment.yml` is an environment specification, not a hash-locked cross-platform solver result. Pip editable installation also needs setuptools 80.9.0; install it before `--no-build-isolation` if absent.
+The Conda descriptor pins Python 3.12.10 to match the GitHub Windows build. Local development and regression used an isolated Python 3.12.14 Windows x64 venv. The downloaded GitHub executable was tested separately. No Conda solve was executed on this machine. Platform-specific binary dependencies must be verified separately. `environment.yml` is an environment specification, not a hash-locked cross-platform solver result. Pip editable installation also needs setuptools 80.9.0; install it before `--no-build-isolation` if absent.
 
 ## Exact Windows release dependency versions
 
@@ -29,7 +29,7 @@ py -3.12 -m venv .venv-v5
 .\.venv-v5\Scripts\python.exe -m pip install -e . --no-deps --no-build-isolation
 ```
 
-The lock file pins the resolved release dependency versions, not wheel hashes. Python is 3.12.14 x64. It does not guarantee byte-identical executables, future package availability or numerical identity on untested platforms. Install `requirements-test.txt` to include the legacy Flask compatibility tests, then run:
+The lock file pins resolved dependency versions, not wheel hashes. GitHub builds use Python 3.12.10 x64; local checks also used 3.12.14. RELEASE_MANIFEST.json records the actual interpreter used for each package. This does not guarantee byte-identical executables, future package availability or numerical identity on untested platforms. Install `requirements-test.txt` to include the legacy Flask compatibility tests, then run:
 
 ```powershell
 python -m unittest discover -s tests -v
