@@ -5,8 +5,6 @@ from pathlib import Path
 
 root = Path(SPECPATH)
 datas = [
-    (str(root / "src" / "ls900_biometry" / "templates"), "ls900_biometry/templates"),
-    (str(root / "src" / "ls900_biometry" / "static"), "ls900_biometry/static"),
     (str(root / "src" / "ls900_biometry" / "models"), "ls900_biometry/models"),
     (str(root / "src" / "ls900_biometry" / "assets"), "ls900_biometry/assets"),
 ]

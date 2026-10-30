@@ -14,7 +14,6 @@ dependencies = ["numpy==2.2.6", "lxml==5.4.0", "openpyxl==3.1.5"]
 
 [project.optional-dependencies]
 desktop = ["PySide6-Essentials==6.10.0", "Pillow==11.3.0"]
-legacy-web = ["Flask>=3.1,<4", "waitress>=3.0,<4"]
 
 [project.scripts]
 ocularspan = "ls900_biometry.cli:main"
@@ -28,4 +27,4 @@ ls900-desktop = "ls900_biometry.desktop:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-ls900_biometry = ["models/*.json", "assets/*.xlsx", "assets/*.svg", "templates/*.html", "static/*.css", "static/*.js"]
+ls900_biometry = ["models/*.json", "assets/*.xlsx", "assets/*.svg"]

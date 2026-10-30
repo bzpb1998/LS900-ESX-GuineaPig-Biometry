@@ -12,18 +12,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from ls900_biometry.exporter import export_report  # noqa: E402
-from ls900_biometry.webapp import create_app  # noqa: E402
 
 
 class ApplicationSmokeTests(unittest.TestCase):
-    def test_home_page(self) -> None:
-        app = create_app()
-        app.testing = True
-        with app.test_client() as client:
-            response = client.get("/")
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b"OcularSpan", response.data)
-
     def test_compact_report_layout(self) -> None:
         common = {
             "animal_id": "2",

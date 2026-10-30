@@ -30,6 +30,6 @@ AL 为角膜前表面至 ILM 的 EyeSuite 等效测量，AD 从角膜后表面�
 
 问题提交到 [Issues](https://github.com/bzpb1998/OcularSpan/issues)。提供版本、操作步骤和匿名错误描述，不上传患者资料、原始研究 ESX、参考表或厂家软件；可用合成示例演示。
 
-引用 Zhang J. OcularSpan. v0.3.0；无正式论文时不填写虚构 DOI。源码命令与环境见 REPRODUCIBILITY.md，模型限制见仓库 docs/V5_EXPERIMENTAL.md。
+引用 Zhang J. OcularSpan. v0.3.0；无正式论文时不填写虚构 DOI。源码命令与环境见 REPRODUCIBILITY.md，模型限制见仓库 docs/MODEL_VALIDATION.md。
 
 项目非厂家开发、认证或背书，软件按现状提供。完整范围和责任说明见 PROJECT_NOTICE.md、MIT LICENSE 和 THIRD_PARTY_NOTICES.md。

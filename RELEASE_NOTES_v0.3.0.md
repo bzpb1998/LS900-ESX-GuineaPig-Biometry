@@ -1,6 +1,6 @@
 # OcularSpan v0.3.0
 
-Independent ocular biometry research software. Formerly LS900 ESX Guinea Pig Biometry Analyzer.
+Independent ocular biometry research software. **v0.3.0 is the supported release baseline; public release history starts here.**
 
 ## Windows download
 

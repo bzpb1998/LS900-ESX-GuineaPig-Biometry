@@ -1,7 +1,1 @@
-Flask>=3.1,<4
-waitress>=3.0,<4
-numpy>=1.26,<3
-lxml>=5.0,<7
-openpyxl>=3.1,<4
-Pillow>=10,<13
-pystray>=0.19,<1
+-r requirements-desktop.txt

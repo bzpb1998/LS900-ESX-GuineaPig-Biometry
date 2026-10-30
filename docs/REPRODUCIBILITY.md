@@ -10,7 +10,7 @@ The model is checked on load. No fitting, online learning or reference-table loo
 
 From a source checkout:
 
-Use the source archive or checkout for v0.3.0 or later. The V5 JSON is stored without Git text conversion: its frozen SHA-256 includes the original CRLF bytes. Do not normalize line endings or rewrite the JSON with a formatter. The historical v0.2.1 Git blob/source archive carried LF bytes while its tested Windows checkout used CRLF; v0.3.0 preserves the exact frozen bytes in Git and source archives. Model coefficients are unchanged. No global Git setting changes are required.
+Use the source archive or checkout for v0.3.0 or later. The V5 JSON is stored without Git text conversion: its frozen SHA-256 includes the original CRLF bytes. Do not normalize line endings or rewrite the JSON with a formatter. The exact frozen bytes are preserved in Git and source archives. Model coefficients are unchanged. No global Git setting changes are required.
 
 ```powershell
 conda env create -f environment.yml
@@ -31,7 +31,7 @@ py -3.12 -m venv .venv-v5
 .\.venv-v5\Scripts\python.exe -m pip install -e . --no-deps --no-build-isolation
 ```
 
-The lock file pins resolved dependency versions, not wheel hashes. GitHub builds use Python 3.12.10 x64; local checks also used 3.12.14. RELEASE_MANIFEST.json records the actual interpreter used for each package. This does not guarantee byte-identical executables, future package availability or numerical identity on untested platforms. Install `requirements-test.txt` to include the legacy Flask compatibility tests, then run:
+The lock file pins resolved dependency versions, not wheel hashes. GitHub builds use Python 3.12.10 x64; local checks also used 3.12.14. RELEASE_MANIFEST.json records the actual interpreter used for each package. This does not guarantee byte-identical executables, future package availability or numerical identity on untested platforms. The pinned environment includes the packages used by the native-window and numerical tests. Run:
 
 ```powershell
 python -m unittest discover -s tests -v
@@ -56,4 +56,4 @@ For headless execution of the packaged EXE, use `"OcularSpan.exe" --batch --inpu
 
 ## Study and data limits
 
-Retrospective V5 performance, denominators and remaining failures are documented in V5_EXPERIMENTAL.md. Current evidence concerns manual EyeSuite-equivalent measurement agreement, not independent anatomical truth. Publication of code and parameters enables inference reproduction; complete training reproduction requires access to the underlying training signals and manual reference labels. Those private records are not distributed here. Raw ESX, reference screenshots/workbooks, patient data, vendor installers and protected manuals must never be added to this repository or release ZIP.
+Retrospective V5 performance, denominators and remaining failures are documented in MODEL_VALIDATION.md. Current evidence concerns manual EyeSuite-equivalent measurement agreement, not independent anatomical truth. Publication of code and parameters enables inference reproduction; complete training reproduction requires access to the underlying training signals and manual reference labels. Those private records are not distributed here. Raw ESX, reference screenshots/workbooks, patient data, vendor installers and protected manuals must never be added to this repository or release ZIP.

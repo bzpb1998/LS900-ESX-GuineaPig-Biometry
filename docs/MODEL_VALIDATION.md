@@ -1,7 +1,7 @@
-# V5 experimental model (2026-10-16)
+# Model validation and limitations
 
-The V5 model developed on 2026-10-16 is now the default in the v0.2.0 native
-desktop release (2026-10-29). The historical V4/v0.1.0 release is retained.
+OcularSpan v0.3.0 uses the locked V5 model developed on 2026-10-16.
+The software release number and the model identifier are separate.
 Shipping V5 in a usable application does not change its evidence status:
 it remains an incremental research candidate pending new-animal prospective
 validation, not a uniformly superior replacement established externally.
@@ -47,10 +47,10 @@ values are an operational reference, not independently proven anatomical truth.
 ## Use from source
 
 Use the pinned environment and installable package described in
-[REPRODUCIBILITY.md](REPRODUCIBILITY.md). The default command is now:
+[REPRODUCIBILITY.md](REPRODUCIBILITY.md). The command is:
 
 ```powershell
-ls900-biometry --input "D:\your_esx_folder" --output "D:\your_output\LS900_results.xlsx"
+ocularspan --input "D:\your_esx_folder" --output "D:\your_output\measurements.xlsx"
 ```
 
 No data are uploaded. Results use the existing compact two-sheet Excel layout.
