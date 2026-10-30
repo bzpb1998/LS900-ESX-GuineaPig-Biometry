@@ -3,4 +3,4 @@
 from .analysis import MODEL_VERSION, analyze_esx
 
 __all__ = ["MODEL_VERSION", "analyze_esx"]
-__version__ = "0.2.1"
+__version__ = "0.3.0"

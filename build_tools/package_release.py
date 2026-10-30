@@ -5,21 +5,28 @@ import json
 import platform
 from pathlib import Path
 import shutil
+import sys
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-DIST = ROOT / "dist/LS900 Biometry Analyzer V5"
+DIST = ROOT / "dist/OcularSpan"
 RELEASE = ROOT / "release"
 
 
 def main():
-    if not (DIST / "LS900 Biometry Analyzer.exe").is_file():
+    if not (DIST / "OcularSpan.exe").is_file():
         raise SystemExit("Build the V5 executable first")
     for source, name in (("LICENSE","LICENSE"), ("THIRD_PARTY_NOTICES.md","THIRD_PARTY_NOTICES.md"),
-                         ("docs/USER_GUIDE.md","使用说明.md"), ("docs/REPRODUCIBILITY.md","REPRODUCIBILITY.md")):
+                         ("docs/USER_GUIDE.md","使用说明.md"), ("docs/REPRODUCIBILITY.md","REPRODUCIBILITY.md"),
+                         ("docs/PROJECT_NOTICE.md","PROJECT_NOTICE.md")):
         shutil.copy2(ROOT/source, DIST/name)
     licenses = DIST / "THIRD_PARTY_LICENSES"
     licenses.mkdir(exist_ok=True)
+    python_license = Path(sys.base_prefix) / "LICENSE.txt"
+    if not python_license.is_file():
+        raise FileNotFoundError("The Python runtime license must accompany the release")
+    (licenses / "Python").mkdir(exist_ok=True)
+    shutil.copy2(python_license, licenses / "Python/LICENSE.txt")
     distributions = ("numpy","lxml","openpyxl","et_xmlfile","Pillow","PySide6-Essentials","shiboken6","PyInstaller")
     versions = {}
     for name in distributions:
@@ -49,7 +56,7 @@ def main():
     from ls900_biometry import __version__
     digest = hashlib.sha256(source_model.read_bytes()).hexdigest().upper()
     assert digest == MODEL_SHA256
-    (DIST/"RELEASE_MANIFEST.json").write_text(json.dumps({"software":__version__,"model":MODEL_VERSION,
+    (DIST/"RELEASE_MANIFEST.json").write_text(json.dumps({"application":"OcularSpan","software":__version__,"model":MODEL_VERSION,
        "model_sha256":digest,"python":platform.python_version(),"platform":"Windows x64","dependencies":versions},indent=2),encoding="utf-8")
     for path in DIST.rglob("*"):
         if path.suffix.lower() in {".esx",".eesx",".csv",".tsv",".db",".sqlite",".pkl",".npz",".npy"}:
@@ -57,7 +64,9 @@ def main():
         if path.suffix.lower()==".xlsx" and path.name!="output_template.xlsx":
             raise ValueError("Non-template Excel in release")
     RELEASE.mkdir(exist_ok=True)
-    target = RELEASE/f"LS900-ESX-GuineaPig-Biometry-v{__version__}-V5-windows-x64.zip"
+    target = RELEASE/f"OcularSpan-v{__version__}-windows-x64.zip"
+    if target.exists():
+        raise FileExistsError("Preserve existing release archives: " + str(target))
     with zipfile.ZipFile(target,"w",zipfile.ZIP_DEFLATED,compresslevel=6) as archive:
         for path in sorted(DIST.rglob("*")):
             if path.is_file():

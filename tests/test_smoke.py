@@ -22,7 +22,7 @@ class ApplicationSmokeTests(unittest.TestCase):
         with app.test_client() as client:
             response = client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"LS900 ESX Guinea Pig", response.data)
+        self.assertIn(b"OcularSpan", response.data)
 
     def test_compact_report_layout(self) -> None:
         common = {

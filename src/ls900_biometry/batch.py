@@ -65,10 +65,11 @@ def save_report(result: BatchResult, output: str | Path) -> Path:
     temporary = Path(temp_name)
     try:
         export_report(result.rows, temporary,
-                      title="LS900_Biometry_" + datetime.now().strftime("%Y%m%d_%H%M%S"),
+                      title="OcularSpan_" + datetime.now().strftime("%Y%m%d_%H%M%S"),
                       extra_notes=[
                           "V5 的现有评价为回顾性，尚待新动物前瞻性验证；仅供豚鼠研究。",
                           "质量标记为启发式判断，不是准确概率；异常解剖与含混峰位须复核。",
+                          "OcularSpan 为独立科研工具，非 Haag-Streit 官方产品；不用于临床诊断。",
                           "模型 SHA-256：" + MODEL_SHA256,
                       ], file_errors=result.errors)
         os.replace(temporary, target)

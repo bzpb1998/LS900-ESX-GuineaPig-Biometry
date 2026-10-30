@@ -4,3 +4,5 @@
 *.ico binary
 *.xlsx binary
 src/ls900_biometry/models/*.json text eol=lf
+# V5's frozen SHA-256 includes its original CRLF bytes. Preserve them exactly.
+src/ls900_biometry/models/v5_model.json binary

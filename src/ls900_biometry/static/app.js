@@ -55,7 +55,7 @@ analyzeButton.addEventListener("click", async () => {
     const blob = await response.blob();
     const disposition = response.headers.get("Content-Disposition") || "";
     const match = disposition.match(/filename="?([^";]+)"?/i);
-    const filename = match ? match[1] : `LS900_Biometry_${Date.now()}.xlsx`;
+    const filename = match ? match[1] : `OcularSpan_${Date.now()}.xlsx`;
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;

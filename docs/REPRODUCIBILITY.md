@@ -2,7 +2,7 @@
 
 ## Scope
 
-Software v0.2.1 uses the locked V5 model `guinea-lenstar-v5.0.0-animal-grouped-2026-10-16`.
+Software v0.3.0 (OcularSpan) uses the locked V5 model `guinea-lenstar-v5.0.0-animal-grouped-2026-10-16`.
 SHA-256: `80BDF7AC628A3F27F2CAE2CBD8D7D88B458FF6E248840AA406D09FFCAAE6100B`.
 The model is checked on load. No fitting, online learning or reference-table lookup occurs during inference. V4 stays in `inference.py` for the unchanged lens implementation and historical comparison; public `analysis.analyze_esx` invokes V5 retinal inference with the locked lens parameters. Desktop and CLI use the same `batch.py` service.
 
@@ -10,15 +10,15 @@ The model is checked on load. No fitting, online learning or reference-table loo
 
 From a source checkout:
 
-Use the source archive from the desired Release, or preserve LF line endings when checking out frozen model JSON. Current main includes `.gitattributes` for this purpose. For an exact Windows Git checkout of the historical v0.2.1 tag (before that attributes-only follow-up), use `git -c core.autocrlf=false clone --branch v0.2.1 https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry.git`. Do not change global Git settings. The model integrity check deliberately rejects modified bytes, including unintended newline conversion.
+Use the source archive or checkout for v0.3.0 or later. The V5 JSON is stored without Git text conversion: its frozen SHA-256 includes the original CRLF bytes. Do not normalize line endings or rewrite the JSON with a formatter. The historical v0.2.1 Git blob/source archive carried LF bytes while its tested Windows checkout used CRLF; v0.3.0 preserves the exact frozen bytes in Git and source archives. Model coefficients are unchanged. No global Git setting changes are required.
 
 ```powershell
 conda env create -f environment.yml
 conda activate ls900-biometry-v5
 python -m pip install -e . --no-deps --no-build-isolation
-ls900-biometry --version
+ocularspan --version
 ls900-biometry --input "D:\data\raw" --output "D:\results\measurements.xlsx"
-ls900-desktop
+ocularspan-desktop
 ```
 
 The Conda descriptor pins Python 3.12.10 to match the GitHub Windows build. Local development and regression used an isolated Python 3.12.14 Windows x64 venv. The downloaded GitHub executable was tested separately. No Conda solve was executed on this machine. Platform-specific binary dependencies must be verified separately. `environment.yml` is an environment specification, not a hash-locked cross-platform solver result. Pip editable installation also needs setuptools 80.9.0; install it before `--no-build-isolation` if absent.
@@ -52,7 +52,7 @@ ls900-biometry --input "D:\scratch\synthetic.esx" --output "D:\scratch\synthetic
 
 This generated file is not an animal record and does not validate biological accuracy or reproduce the study's training data. A malformed XML test, duplicate-file handling, missing-eye test, lens gate, model hash, manual-retinal-cursor independence and native-window controls are covered by automated tests.
 
-For headless execution of the packaged EXE, use `"LS900 Biometry Analyzer.exe" --batch --input ... --output ...` (PowerShell uses `&` before a quoted executable path). Wait for process completion. CLI refuses to overwrite existing output. All user-facing numeric values remain ordinary Excel numbers; differences in cell display rounding are not algorithm changes.
+For headless execution of the packaged EXE, use `"OcularSpan.exe" --batch --input ... --output ...` (PowerShell uses `&` before a quoted executable path). Wait for process completion. CLI refuses to overwrite existing output. All user-facing numeric values remain ordinary Excel numbers; differences in cell display rounding are not algorithm changes. Legacy `ls900-biometry` / `ls900-desktop` commands and Python imports are retained for compatibility.
 
 ## Study and data limits
 

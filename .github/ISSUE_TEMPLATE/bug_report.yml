@@ -1,0 +1,33 @@
+name: Bug report / 问题反馈
+description: Report an OcularSpan software issue without private data.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not attach raw ESX, patient/animal records, reference workbooks, credentials or manufacturer software. Use the synthetic example when possible.
+  - type: input
+    id: version
+    attributes:
+      label: Software version and Windows version
+      placeholder: OcularSpan 0.3.0 / Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps and expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Error description
+      description: Remove names, identifiers and private paths.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: This report contains no private research or patient data.
+          required: true

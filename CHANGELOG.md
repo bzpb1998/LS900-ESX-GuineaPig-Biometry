@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-30
+
+- Rename the public application to OcularSpan with the short Biometry Research subtitle.
+- Refresh the compact native workspace and eye emblem; preserve the locked V5 parameters and Excel format.
+- Add explicit independent-project, read-only export processing, research-only, as-is and support documentation.
+- Add ocularspan / ocularspan-desktop commands while preserving legacy entry points and Python imports.
+- Preserve previous releases; no new model training or animal validation is claimed.
+- Normalize the Git V5 JSON line endings to the canonical frozen hash; model coefficients are unchanged.
+
 ## 0.2.1 — 2026-10-30
 
 - Record the actual build interpreter in RELEASE_MANIFEST.json instead of a local hard-coded version.

@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QApplication
 from openpyxl import load_workbook
 from ls900_biometry.analysis import MODEL_VERSION, load_model
 from ls900_biometry.batch import AnalysisCancelled, BatchResult, run_batch, save_report
-from ls900_biometry.desktop import MainWindow
+from ls900_biometry.desktop import Logo, MainWindow
 
 
 class DesktopTests(unittest.TestCase):
@@ -24,8 +24,11 @@ class DesktopTests(unittest.TestCase):
 
     def test_window_has_native_workflow(self):
         window = MainWindow()
+        self.assertEqual(window.windowTitle(), "OcularSpan")
+        self.assertTrue(window.findChild(Logo).renderer.isValid())
         self.assertEqual(window.pages.count(), 3)
         self.assertFalse(window.save_button.isEnabled())
+        self.assertIn(MODEL_VERSION, window.about_html())
         window.navigate(2)
         self.assertEqual(window.pages.currentIndex(), 2)
         window.close()
@@ -39,6 +42,27 @@ class DesktopTests(unittest.TestCase):
             self.assertEqual(len(window.paths), 1)
             self.assertTrue(window.analyze_button.isEnabled())
             window.clear_files()
+            self.assertFalse(window.analyze_button.isEnabled())
+            window.close()
+
+    def test_result_survives_cancelled_or_duplicate_selection(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "synthetic.esx"
+            path.touch()
+            window = MainWindow()
+            window.add_paths([path])
+            result = BatchResult(rows=[{"predicted_AL_mm": 7.2}], completed=1, total=1)
+            window.on_completed(result)
+            self.assertFalse(window.save_button.isHidden())
+            self.assertTrue(window.analyze_button.isHidden())
+            with patch("ls900_biometry.desktop.QFileDialog.getOpenFileNames", return_value=([], "")):
+                window.choose_files()
+            window.add_paths([path])
+            self.assertIs(window.result, result)
+            self.assertTrue(window.save_button.isEnabled())
+            window.clear_files()
+            self.assertIsNone(window.result)
+            self.assertTrue(window.save_button.isHidden())
             self.assertFalse(window.analyze_button.isEnabled())
             window.close()
 

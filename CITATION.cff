@@ -1,11 +1,11 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the repository and the associated methods paper when available."
-title: "LS900 ESX Guinea Pig Biometry Analyzer"
+title: "OcularSpan"
 type: software
 authors:
   - family-names: "Zhang"
     given-names: "Junbiao"
-version: 0.2.1
+version: 0.3.0
 date-released: 2026-10-30
 license: MIT
-repository-code: "https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry"
+repository-code: "https://github.com/bzpb1998/OcularSpan"

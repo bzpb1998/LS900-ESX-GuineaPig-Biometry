@@ -1,74 +1,71 @@
-# LS900-ESX-GuineaPig-Biometry
+# OcularSpan
 
-**软件 v0.2.1 · 锁定模型 V5 · 原生 Windows 独立窗口**。不再自动打开浏览器，不启动本地 HTTP 服务。V5 的历史评价为回顾性，尚待新动物前瞻性验证；完整结果与限制见 [V5_EXPERIMENTAL.md](docs/V5_EXPERIMENTAL.md)。历史 V4/v0.1.0 保留在 Releases。
+**Biometry Research · 独立眼部生物测量科研工具**
 
-**LS900 ESX Guinea Pig Biometry Analyzer**
+<img src="assets/brand-lockup.png" alt="OcularSpan — Biometry Research" width="360">
 
-**LS900豚鼠眼部生物测量ESX解析工具**
+OcularSpan 是一个本地 Windows 研究工具：读取使用者导出的 ESX 扫描数据，自动估计豚鼠眼轴长度（AL）、角膜厚度（CCT）、前房房水深度（AD）、晶体厚度（LT）及探索性视网膜厚度（RT），直接导出简洁的 Excel。
 
-<img src="assets/app_icon.png" alt="LS900 Biometry Analyzer icon" width="128">
+**本项目非厂家官方软件，未由 Haag-Streit 设计、认证或背书。** LENSTAR LS 900 和 EyeSuite 名称仅用于说明当前支持的数据来源，不表示官方合作或授权。仅供科研，不用于临床诊断。软件按现状提供；完整使用范围和责任说明见 [项目说明](docs/PROJECT_NOTICE.md) 与 [MIT LICENSE](LICENSE)。
 
-这是一个在本机运行的研究工具：批量读取 LENSTAR LS 900 导出的原始 `.esx` 文件，自动估计豚鼠的眼轴长度（AL）、角膜厚度（CCT）、前房深度（AD）、晶体厚度（LT）和视网膜厚度（RT），并导出排版简洁的 Excel 文件。
+## 下载与使用
 
-## Windows 便携版
+1. 到 [Releases](https://github.com/bzpb1998/OcularSpan/releases/latest) 下载 **OcularSpan-v0.3.0-windows-x64.zip**，不要下载 Source code 代替 Windows 包。
+2. 完整解压，保留 `_internal` 和许可证目录。
+3. 双击 **OcularSpan.exe**，直接打开独立窗口，无需安装 Python、Conda，不启动浏览器或本地 HTTP 服务。
+4. 选择或拖入原始 ESX，点击“开始分析”，完成后点击“保存 Excel”。
 
-1. 在 [GitHub Releases](https://github.com/bzpb1998/LS900-ESX-GuineaPig-Biometry/releases) 下载 `LS900-ESX-GuineaPig-Biometry-v0.2.1-V5-windows-x64.zip`，不是 Source code 或 Code → Download ZIP。
-2. 完整解压 ZIP；不要只把 EXE 单独复制出来。
-3. 双击 `LS900 Biometry Analyzer.exe`，直接打开独立软件窗口。
-4. 把一个或多个原始 `.esx` 文件拖入页面，点击“开始分析”。
-5. 点击“保存 Excel”选择位置；关闭软件窗口即可退出。
+没有 before/after 选项，文件默认按时间命名，可自行修改。详见[使用指南](docs/USER_GUIDE.md)。
 
-便携版不需要安装 Python、Conda 或其他运行环境。当前程序没有商业代码签名，Windows SmartScreen 可能在首次运行时提示“未知发布者”；请只从本仓库的 Release 下载，并用一同发布的 SHA-256 校验文件核对。
+![OcularSpan desktop](assets/desktop-preview.png)
 
-没有 before/after 选项。导出文件默认按时间命名，使用者可自行改名。详见[使用说明](docs/USER_GUIDE.md)。
+## 文件与权限
 
-![V5 desktop window](assets/desktop-preview.png)
+- **输入只读**：读取用户选中的 ESX；选择文件夹时只读取当前层，不递归扫描。
+- **独立输出**：只把 Excel 保存到使用者选择的位置，不修改原始 ESX。
+- **不连接设备或数据库**：无需 EyeSuite/MySQL 账号、数据库 SELECT 权限或管理员权限。
+- **本地处理**：默认桌面版不上传研究资料、不监听网络端口。主动点击 GitHub 链接才会打开在线文档。
+- Windows 包未购买商业代码签名。请从本仓库下载并核对随包 SHA-256，依所在单位安全政策运行，不要关闭系统安全功能。
 
-## 输出规则
+旧的 Flask 入口只用于代码兼容，另见[复现说明](docs/REPRODUCIBILITY.md)，不是默认 Windows 程序。
 
-- `测量数据`：一只动物一行；OD 在左、OS 在右，中间留两列空白。
-- 指标顺序：AL、CCT、AD、LT、RT。
-- 晶体质量门未通过时，AD 与 LT 留空，不强行给数值。
-- 需要复核或留空的项目写在 `说明` 工作表中。
-- RT 目前属于探索性结果，不建议作为未经复核的主要终点。
+## Excel 输出
 
-## 数据与隐私
+只有“测量数据”和“说明”两张表。一只动物一行，OD/OS 横向排列，中间留两列空白；指标顺序为 AL、CCT、AD、LT、RT。晶体边界不可靠时 AD/LT 留空，复核提示写在说明页。程序不做组间统计或造模效果分析。
 
-原生桌面版直接在本机读取文件，不监听端口，不修改 ESX 原件，不上传数据。仅在主动点击 GitHub 文档链接时打开网络页面。旧 Flask 网页入口仅保留为代码兼容方式，不是默认 Windows 入口。
+## 研究范围与复现
 
-## 模型边界
+软件 **v0.3.0** 使用原来锁定的 **V5** 模型，未因改名、界面或图标重新训练。它针对所述豚鼠数据开发，并不因为名称通用就支持其他设备或物种。现有 V5 评价为已揭盲历史数据上的回顾性评价，尚待新动物前瞻性验证。人工参考不是独立解剖学真值，质量标签不是准确概率。
 
-当前模型为 `guinea-lenstar-v5.0.0-animal-grouped-2026-10-16`，针对现有豚鼠数据开发。它不是 LENSTAR 厂商算法，也不是医疗器械软件，不能用于临床诊断。将模型用于其他动物、不同设备、不同固件或明显不同的采集流程前，应重新验证。
-
-历史 48 眼的 V5 回顾性复核：AL MAE 0.02471 mm，43/48 眼绝对误差 ≤0.05 mm，46/48 眼 ≤0.10 mm。CCT MAE 2.29 μm；人工参考符合预设范围且模型门控通过的 29 眼，LT MAE 0.02023 mm。RT 为探索性结果。这不是诊断准确率，不能把已知历史反馈下的 V5 再称为全新盲法测试。
-
-这 48 眼是测量记录级测试，其中 20 眼的动物在另一时间点出现在训练组；28 眼的动物编号未进入训练。不能将全部 48 眼称为动物级完全独立外部验证。
-
-## 从源代码运行
+- [模型、历史评价和限制](docs/V5_EXPERIMENTAL.md)
+- [源码、Conda/venv、合成示例与构建](docs/REPRODUCIBILITY.md)
+- [环境文件](environment.yml)；[固定 Windows 依赖](requirements-lock-windows-py312.txt)
 
 ```powershell
 conda env create -f environment.yml
 conda activate ls900-biometry-v5
 python -m pip install -e . --no-deps --no-build-isolation
-ls900-desktop
-# 或命令行批量输出：
-ls900-biometry --input "D:\data\raw" --output "D:\results\measurements.xlsx"
+ocularspan-desktop
+# 命令行批处理
+ocularspan --input "D:\data\raw" --output "D:\results\measurements.xlsx"
 ```
 
-依赖锁定、venv 替代方法、实际验证边界和合成示例见[复现说明](docs/REPRODUCIBILITY.md)。无需为了使用软件安装 Conda；它只面向源码使用者。
+原 `ls900_biometry` Python 导入名和 `ls900-biometry` / `ls900-desktop` 命令保留兼容；它们不是厂家组件。完整训练复现仍需私有训练信号与人工标签，仓库不含这些资料。
 
-## 构建 Windows 版本
+## 支持与引用
 
-```powershell
-.\build_windows.ps1
-```
+遇到问题请在 [Issues](https://github.com/bzpb1998/OcularSpan/issues) 提交软件版本、操作步骤和去除身份信息的错误描述。**不要上传患者资料、原始研究 ESX、人工参考表或厂家软件。** 可使用仓库的合成示例复现。社区支持按可用时间提供，不承诺服务时限。
 
-输出位于 `dist/LS900 Biometry Analyzer V5`，压缩包位于 `release/`。GitHub Actions 在推送 `v*` 标签时自动构建并附加到 Release。第三方许可及 Qt 源码获取方式见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+引用：Zhang J. *OcularSpan*. v0.3.0. GitHub. 论文正式发表前不虚构 DOI；机器可读引用见 [CITATION.cff](CITATION.cff)。
 
-## English summary
+[SpikeFinder](https://github.com/timothylcooke/SpikeFinder) 是另一个查看光学生物测量仪原始数据的独立研究项目。其数据库访问方式与本工具读取导出文件的方式不同；本项目不依赖或分发 SpikeFinder。相关工作不构成本工具获得厂家授权的证明。
 
-LS900 ESX Guinea Pig Biometry Analyzer is a local Windows research tool for batch extraction of guinea-pig ocular biometry from raw Lenstar LS 900 ESX files. It exports AL, CCT, AD, LT and exploratory RT measurements to a two-sheet Excel workbook. Processing occurs locally; selected files are not uploaded to a remote server.
+## 许可与项目关系
 
-## License
+项目代码采用 MIT；依赖库保留各自许可证，见 [第三方说明](THIRD_PARTY_NOTICES.md)。程序按现状提供，不保证结果准确性、适用性或不侵权；在适用法律允许范围内，责任限制以随附 LICENSE 为准。使用者应有权访问和使用输入数据，保存原始备份并复核研究结论。公开代码不授予第三方商标、专利或数据权利。
 
-MIT。项目与 Haag-Streit 或 LENSTAR 厂商无隶属、授权或背书关系。
+仓库不包含 EyeSuite 安装包、厂家 DLL/手册、原始 ESX、患者或动物记录。软件旧名为 LS900 ESX Guinea Pig Biometry Analyzer；历史版本和锁定预测仍保留，不重写。
+
+## English
+
+OcularSpan is independent ocular biometry research software, not designed or endorsed by Haag-Streit. It reads user-exported ESX files from LENSTAR LS 900 / EyeSuite and writes a separate two-sheet Excel workbook. It does not connect to the instrument or its database. The current model targets guinea-pig research and is not for clinical diagnosis. The software is provided as-is under the MIT License; third-party rights and licenses remain applicable.
